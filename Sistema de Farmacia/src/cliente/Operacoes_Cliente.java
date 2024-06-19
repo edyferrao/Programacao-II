@@ -14,16 +14,15 @@ import ficheiros.FicheiroCliente;
 
 public final class Operacoes_Cliente {
 	
-	FicheiroCliente fc = new FicheiroCliente();
+	FicheiroCliente ficheiroCliente = new FicheiroCliente();
 	
 	 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public void gravarC(Vector <Cliente> v) {
+	public void gravarCliente(Vector <Cliente> v) {
 		try {
-			fc.gravar(v);
+			ficheiroCliente.gravar(v);
 			JOptionPane.showMessageDialog(null,"Cliente registrado com sucesso");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -34,7 +33,7 @@ public final class Operacoes_Cliente {
 		if (v.isEmpty()) {
 			Cliente c = new Cliente(novoId, novoNome, 0);
 			v.add(c);
-			gravarC(v);
+			gravarCliente(v);
 		}
 		else {
 			int control = 0;
@@ -47,7 +46,7 @@ public final class Operacoes_Cliente {
 			if (control == 0) {
 				Cliente c = new Cliente(novoId, novoNome, 0);
 				v.add(c);
-				gravarC(v);
+				gravarCliente(v);
 			}
 		}
 	}
@@ -66,15 +65,33 @@ public final class Operacoes_Cliente {
 					int idEdit = Integer.parseInt(JOptionPane.showInputDialog("Deseja actualizar?\n1-id\n2-nome"));
 					if (idEdit == 1) {
 						int novoId = Integer.parseInt(JOptionPane.showInputDialog("Insira o novo id do cliente"));
-						((Cliente)v.get(i)).setId(novoId);
-						JOptionPane.showMessageDialog(null,"Id editado com sucesso");
-						gravarC(v);
+						int aux = 0;
+						for (int j = 0; j < v.size(); j++) {
+							if (novoId == v.get(j).getId()) {
+								JOptionPane.showMessageDialog(null, "O id já existe", "Erro" , ERROR_MESSAGE);
+								aux = 1;
+							}
+						}
+						if (aux == 0) {
+							((Cliente)v.get(i)).setId(novoId);
+							JOptionPane.showMessageDialog(null,"Id editado com sucesso");
+							gravarCliente(v);
+						}
 					}
 					else if (idEdit == 2) {
 						String novoNome = JOptionPane.showInputDialog("Insira o novo nome do Cliente");
-						((Cliente)v.get(i)).setNome(novoNome);
-						JOptionPane.showMessageDialog(null,"Nome editado com sucesso");
-						gravarC(v);
+						int aux = 0;
+						for (int j = 0; j < v.size(); j++) {
+							if (novoNome.equals(v.get(j).getNome())) {
+								JOptionPane.showMessageDialog(null, "O nome já existe", "Erro" , ERROR_MESSAGE);
+								aux = 1;
+							}
+						}
+						if (aux == 0) {
+							((Cliente)v.get(i)).setNome(novoNome);
+							JOptionPane.showMessageDialog(null,"Nome editado com sucesso");
+							gravarCliente(v);
+						}
 					}
 				}
 			}
@@ -99,7 +116,7 @@ public final class Operacoes_Cliente {
 					if (resposta == JOptionPane.YES_OPTION) {
 						v.remove(i);
 						JOptionPane.showMessageDialog(null,"Cliente removido com sucesso");
-						gravarC(v);
+						gravarCliente(v);
 					}
 					else if (resposta == JOptionPane.NO_OPTION) {
 						JOptionPane.showMessageDialog(null,"Operacao cancelada");

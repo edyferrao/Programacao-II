@@ -27,18 +27,17 @@ public class Operacoes_Produto {
 	Vector <Double> subtotal = new Vector <Double> ();
 	Vector <Calendar> datas = new Vector <Calendar> ();
 	
-	FicheiroProdutos fp = new FicheiroProdutos();
+	FicheiroProdutos ficheiroProduto = new FicheiroProdutos();
 
 	
 	Calendar data = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public void gravarP(Vector <Produto> v) {
+	public void gravarProduto(Vector <Produto> v) {
 		try {
-			fp.gravar(v);
+			ficheiroProduto.gravar(v);
 			JOptionPane.showMessageDialog(null,"Produto registrado com sucesso");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,7 +50,7 @@ public class Operacoes_Produto {
 		if (v.isEmpty()) {
 			Produto p = new Produto(novoId, novoNome, novoPreco, novaQdt, 0);
 			v.add(p);
-			gravarP(v);
+			gravarProduto(v);
 			
 			
 		}
@@ -66,7 +65,7 @@ public class Operacoes_Produto {
 			if (temporaria == 0) {
 				Produto p = new Produto(novoId, novoNome, novoPreco, novaQdt, 0);
 				v.add(p);
-				gravarP(v);
+				gravarProduto(v);
 			}
 		}
 	}
@@ -87,19 +86,19 @@ public class Operacoes_Produto {
 						int novoId = Integer.parseInt(JOptionPane.showInputDialog("Insira o novo id do produto"));
 						((Produto)v.get(i)).setCod_id(novoId);
 						JOptionPane.showMessageDialog(null,"Id editado com sucesso");
-						gravarP(v);
+						gravarProduto(v);
 					}
 					else if (idEdit == 2) {
 						String novoNome = JOptionPane.showInputDialog("Insira o novo nome do produto");
 						((Produto)v.get(i)).setNome(novoNome);
 						JOptionPane.showMessageDialog(null,"Nome editado com sucesso");
-						gravarP(v);
+						gravarProduto(v);
 					}
 					else if (idEdit == 3) {
 						double novoPreco = Double.parseDouble(JOptionPane.showInputDialog("Insira o preco do produto"));
 						((Produto)v.get(i)).setPreco(novoPreco);
 						JOptionPane.showMessageDialog(null,"Preco editado com sucesso");
-						gravarP(v);
+						gravarProduto(v);
 					}
 				}
 			}
@@ -124,7 +123,7 @@ public class Operacoes_Produto {
 					if (resposta == JOptionPane.YES_OPTION) {
 						v.remove(i);
 						JOptionPane.showMessageDialog(null,"Produto removido com sucesso");
-						gravarP(v);
+						gravarProduto(v);
 					}
 					else if (resposta == JOptionPane.NO_OPTION) {
 						JOptionPane.showMessageDialog(null,"Operacao cancelada");
@@ -151,7 +150,7 @@ public class Operacoes_Produto {
 					int novoQtd = Integer.parseInt(JOptionPane.showInputDialog("Insira o numero de produtos que deseja aumentar"));
 					((Produto)v.get(i)).setQtd_stock(((Produto)v.get(i)).getQtd_stock() + novoQtd);
 					JOptionPane.showMessageDialog(null,"Stock adicionado com sucesso");
-					gravarP(v);
+					gravarProduto(v);
 				}
 			}
 			if (control == 0) {
@@ -294,16 +293,18 @@ public class Operacoes_Produto {
 					}
 				}
 			}
-        	c.setConta(aux);
+        	c.setConta(c.getConta() + aux);
         	vCompras.clear();
 			vqtd.clear();
-			gravarP(v);
+			subtotal.clear();
+			gravarProduto(v);
 			
 			
         }
         else if (resposta == JOptionPane.NO_OPTION) {
         	vCompras.clear();
 			vqtd.clear();
+			subtotal.clear();
         }
 	}
 	
